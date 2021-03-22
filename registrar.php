@@ -5,7 +5,7 @@
 
 <?php include'includes/menuhome.php';?>   
 
-    <form class="form-signin" method="POST" action="">
+    <form class="form-signin" method="POST" action="cadastrar.php">
         <br>
         <div class="text-center"><h3 class="text-home">Cadastre-se na Hire</h3></div>
         <br>
@@ -16,14 +16,11 @@
             </select>
         </div>
         <hr>
-        <input type="text" name="nome_completo" id="nome_completo" class="form-control" placeholder="Nome Completo" required>
+        <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome Completo" required>
         <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Nome de Usuário" required>
         <input type="text" name="nascimento" id="nascimento" class="form-control" placeholder="Data de Nascimento" required>
         <input type="text" name="endereco" id="endereco" class="form-control" placeholder="Endereço" required>
         <input type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone" required>
-        <label for="">Foto de Perfil</label>
-        <input type="file" class="form-control-file" id="" name="" required>
-        <hr>
         <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required autofocus>
         <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required>
         
