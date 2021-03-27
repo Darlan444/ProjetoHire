@@ -1,6 +1,28 @@
 <?php
-//aqui vai o código para realizar login
 
+include("conexao.php");
+$conn = connection();
+if (isset($_POST['email']) && strlen($_POST['email']) > 0) {
+    if(isset($_SESSION))
+    session_start();
+
+    $_SESSION['email'] = $conn->escape_string($_POST['email']);
+    $_SESSION['senha'] = md5(md5($_POST['senha']));
+
+    $sql_code = "SELECT senha, id FROM usuario WHERE email = '$_SESSION[email]'";
+    $sql_querry = $conn->querry($sql_code) or die ($conn->error);
+    $dado = $sql_querry->fetch_assoc();
+    $total = $sql_querry->num_rows;
+
+        if ($total == 0) {
+            $erro[] = "Este email não pertence a nenhum usuário.";
+        }   else {
+                if($dado['senha'] && $_SESSION['senha']){
+                $_SESSION['usuario'] = $dado['id'];
+                }
+            }  
+           
+}
 ?>
 
 <?php include'includes/menuhome.php';?>
