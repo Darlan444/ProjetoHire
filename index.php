@@ -1,41 +1,34 @@
-
 <?php
- 
- include("conexao.php");
 
- $conn = connection();
- 
- if(isset($_POST['email']) && strlen($_POST['email']) > 0 ){
-  
-  if(!isset($_SESSION))
-   session_start();
- 
-  $_SESSION['email'] = $conn->quote($_POST['email']);
-  $_SESSION['senha'] = md5(md5($_POST['senha']));
- 
-  $sql_code ="SELECT senha, id FROM usuario WHERE email = '$_SESSION[email]'";
-  $sql_query = $conn->query($sql_code) or die($conn->error);
-  $dado = $sql_query->fetch_assoc();
-  $total = $sql_query->num_rows;
- 
-  if($total == 0){
-   $erro[] = "Este email nao pertence a nenhum usuario";
-  }else{
-   if($dado['senha'] == $_SESSION['senha']){
-    $_SESSION['usuario'] = $dado['id'];
-   }
-   else{
-    $erro[] = "Senha Incorreta";
-   }
-  }
- 
-  if(count($erro) == 0 || !isset($erro)){
-   echo "<script> alert('Sucesso!'); location.href = 'dashboard.php'; </script>"; 
-  }
- 
- }
- 
- ?>
+session_start();
+
+if( isset($_SESSION['usuario_id']) ){
+	header("Location: /");
+}
+
+require 'conexao.php';
+
+if(!empty($_POST['email']) && !empty($_POST['senha'])):
+	
+	$records = $conn->prepare('SELECT id,email,senha FROM usuario WHERE email = :email');
+	$records->bindParam(':email', $_POST['email']);
+	$records->execute();
+	$results = $records->fetch(PDO::FETCH_ASSOC);
+
+	$message = '';
+
+	if(count($results) > 0 && password_verify($_POST['senha'], $results['senha']) ){
+
+		$_SESSION['usuario_id'] = $results['id'];
+		header("Location: /");
+
+	} else {
+		$message = 'Sorry, those credentials do not match';
+	}
+
+endif;
+
+?>
 
 <?php include'includes/menuhome.php';?>
       
@@ -49,7 +42,7 @@
 
     
 
-    <form class="form-signin text-center" method="POST" action="">
+    <form class="form-signin text-center" method="POST" action="index.php">
         <h1 class="text-home"><img src="img/logohireblack.svg" alt="" width=""></h1>
         <br>
         <input type="email" value="" name="email" id="email" class="form-control" placeholder="E-mail" required autofocus>
