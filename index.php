@@ -2,57 +2,52 @@
 
 session_start();
 
-if( isset($_SESSION['usuario_id']) ){
-	header("Location: /");
-}
-
 require 'conexao.php';
 
-if(!empty($_POST['email']) && !empty($_POST['senha'])):
-	
-	$records = $conn->prepare('SELECT id,email,senha FROM usuario WHERE email = :email');
-	$records->bindParam(':email', $_POST['email']);
+if( isset($_SESSION['user_id']) ){
+
+	$records = $conn->prepare('SELECT id,email,senha FROM usuario WHERE id = :id');
+	$records->bindParam(':id', $_SESSION['user_id']);
 	$records->execute();
 	$results = $records->fetch(PDO::FETCH_ASSOC);
 
-	$message = '';
+	$user = NULL;
 
-	if(count($results) > 0 && password_verify($_POST['senha'], $results['senha']) ){
-
-		$_SESSION['usuario_id'] = $results['id'];
-		header("Location: /");
-
-	} else {
-		$message = 'Sorry, those credentials do not match';
+	if( count($results) > 0){
+		$user = $results;
 	}
 
-endif;
+}
 
 ?>
 
-<?php include'includes/menuhome.php';?>
-      
-    <div class="grupo_lista">
-        <ul class="ul_quem_somos">
-            <li class="lista_quem_somos"><a href="" class="link_quem_somos"><button class="btn btn-quemsomos">Quem Somos?</button></a></li>
-            <li class="lista_quem_somos"><a href="" class="link_quem_somos"><button class="btn btn-quemsomos">Contato</button></a></li>
-            
-        </ul>
-    </div>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Welcome to your Web App</title>
+	<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+	<link href='http://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet' type='text/css'>
+</head>
+<body>
 
-    
+	<div class="header">
+		<a href="/">Your App Name</a>
+	</div>
 
-    <form class="form-signin text-center" method="POST" action="index.php">
-        <h1 class="text-home"><img src="img/logohireblack.svg" alt="" width=""></h1>
-        <br>
-        <input type="email" value="" name="email" id="email" class="form-control" placeholder="E-mail" required autofocus>
-        <input type="password" value="" name="senha" id="senha" class="form-control" placeholder="Senha" required>
-        
-        <button class="btn btn-lg btn-login btn-block" type="submit">Entrar</button>
+	<?php if( !empty($user) ): ?>
 
-        <br>
-        <a href="registrar.php"><small>Criar Conta na Hire</small></a>
-        <p class="mt-5 mb-3" style="color: rgb(0, 0, 0);">&copy; Juazeiro do Norte - CE | Hire 💖</p>
-    </form>
+		<br />Welcome <?= $user['email']; ?> 
+		<br /><br />You are successfully logged in!
+		<br /><br />
+		<a href="logout.php">Logout?</a>
 
-<?php include'includes/footerhome.php';?>
+	<?php else: ?>
+
+		<h1>Please Login or Register</h1>
+		<a href="login.php">Login</a> or
+		<a href="register.php">Register</a>
+
+	<?php endif; ?>
+
+</body>
+</html>

@@ -23,7 +23,7 @@ try {
     $endereco   = $_POST['endereco'];
     $telefone   = $_POST['telefone'];
     $email      = $_POST['email'];
-    $senha      = $_POST['senha'];
+    $senha      = password_hash($_POST['senha'], PASSWORD_BCRYPT);
    
  
     $stmt->execute();
