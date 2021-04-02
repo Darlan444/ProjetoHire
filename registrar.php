@@ -22,7 +22,7 @@
         <input type="text" name="endereco" id="endereco" class="form-control" placeholder="Endereço" required>
         <input type="text" name="telefone" id="telefone" class="form-control" placeholder="Telefone" required>
         <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required autofocus>
-        <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Senha" required>
         
         <button class="btn btn-lg btn-login btn-block" type="submit">Cadastrar</button>
 

@@ -1,20 +1,26 @@
 <?php
+
+class Conexao
+{
+
+    const HOST = "localhost";
+    const USER = "root";
+    const PASS = "";
+    const NAME = "hire";
+    public $conn;
     //Conexão com banco de dados
-    function connection(){
-        $servername = "localhost";
-        $username   = "root";
-        $password   = "";
-        $db         = "hire";
+    function connection()
+    {
+
 
         try {
-        $conn = new PDO("mysql:host=$servername;dbname=$db;charset=utf8", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        //echo "Conexão realizada com sucesso!";
-        return $conn;
-
-        } catch(PDOException $e) {
-        echo "Conexão falhou! Erro: " . $e->getMessage();
+            $this->conn = new  \PDO('mysql:host=' . self::HOST . ';dbname=' . self::NAME . ';charset=utf8', self::USER, self::PASS);
+            // set the PDO error mode to exception
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            //echo "Conexão realizada com sucesso!";
+            return $this->conn;
+        } catch (PDOException $e) {
+            echo "Conexão falhou! Erro: " . $e->getMessage();
         }
     }
-?> 
+}

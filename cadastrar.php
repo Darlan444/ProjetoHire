@@ -8,14 +8,14 @@ try {
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // prepare sql and bind parameters
-    $stmt = $conn->prepare("INSERT INTO usuario(nome, nascimento, endereco, telefone, email, senha)
-    VALUES (:nome, :nascimento, :endereco, :telefone, :email, :senha)");
+    $stmt = $conn->prepare("INSERT INTO usuario(nome, nascimento, endereco, telefone, email, password)
+    VALUES (:nome, :nascimento, :endereco, :telefone, :email, :password)");
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':nascimento', $nascimento);
     $stmt->bindParam(':endereco', $endereco);
     $stmt->bindParam(':telefone', $telefone);
     $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':senha', $senha);
+    $stmt->bindParam(':password', $password);
     
 
     $nome       = $_POST['nome'];
@@ -23,7 +23,7 @@ try {
     $endereco   = $_POST['endereco'];
     $telefone   = $_POST['telefone'];
     $email      = $_POST['email'];
-    $senha      = password_hash($_POST['senha'], PASSWORD_BCRYPT);
+    $senha      = password_hash($_POST['password'], PASSWORD_BCRYPT);
    
  
     $stmt->execute();

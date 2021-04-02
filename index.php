@@ -6,7 +6,7 @@ require 'conexao.php';
 
 if( isset($_SESSION['user_id']) ){
 
-	$records = $conn->prepare('SELECT id,email,senha FROM usuario WHERE id = :id');
+	$records = $conn->prepare('SELECT id,email,password FROM usuario WHERE id = :id');
 	$records->bindParam(':id', $_SESSION['user_id']);
 	$records->execute();
 	$results = $records->fetch(PDO::FETCH_ASSOC);
@@ -30,9 +30,6 @@ if( isset($_SESSION['user_id']) ){
 </head>
 <body>
 
-	<div class="header">
-		<a href="/">Your App Name</a>
-	</div>
 
 	<?php if( !empty($user) ): ?>
 
@@ -45,7 +42,7 @@ if( isset($_SESSION['user_id']) ){
 
 		<h1>Please Login or Register</h1>
 		<a href="login.php">Login</a> or
-		<a href="register.php">Register</a>
+		<a href="registrar.php">Register</a>
 
 	<?php endif; ?>
 
