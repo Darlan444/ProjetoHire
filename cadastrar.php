@@ -2,14 +2,14 @@
 
 include "conexao.php";
 
-$conn = connection();
 try {
-    // set the PDO error mode to exception
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    $c = new Conexao();
 
     // prepare sql and bind parameters
-    $stmt = $conn->prepare("INSERT INTO usuario(nome, nascimento, endereco, telefone, email, password)
-    VALUES (:nome, :nascimento, :endereco, :telefone, :email, :password)");
+    $sql = 'INSERT INTO usuario(nome, nascimento, endereco, telefone, email, password)
+    VALUES (:nome, :nascimento, :endereco, :telefone, :email, :password)';
+    $stmt = $c->connection()->prepare($sql);
     $stmt->bindParam(':nome', $nome);
     $stmt->bindParam(':nascimento', $nascimento);
     $stmt->bindParam(':endereco', $endereco);
@@ -23,7 +23,7 @@ try {
     $endereco   = $_POST['endereco'];
     $telefone   = $_POST['telefone'];
     $email      = $_POST['email'];
-    $senha      = password_hash($_POST['password'], PASSWORD_BCRYPT);
+    $password   = $_POST['password'];
    
  
     $stmt->execute();
