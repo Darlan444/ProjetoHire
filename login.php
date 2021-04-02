@@ -17,7 +17,7 @@ if (!empty($_POST['email']) && !empty($_POST['password'])) :
 
     if ($stmt->rowCount() > 0) :
 
-        header('Location: index.php');
+        header('Location: dashboard.php');
 
     else :
         $_POST['erro'] = 'usuario ou senha errados';
